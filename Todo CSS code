@@ -1,0 +1,123 @@
+.todo-bg{
+   
+background: linear-gradient(
+  135deg,
+  #2c3e50 0%,
+  #4a6da7 35%,
+  #799ac6 65%,
+  #c3cbd3 85%,
+  #e9e9e9 100%
+);
+
+    background-size: cover;
+    border-radius:20px;
+    
+    margin:10px;
+}
+.to-do-heading{
+    font-size:34px;
+    font-family:Caveat;
+    font-weight:600;
+    text-decoration:underline;
+
+}
+.create-tasks-heading {
+    font-size: 35px;
+    font-family: "Monoto";
+
+}
+
+.input-box {
+    width: 100%;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: grey;
+    border-width: 1px;
+    padding: 15px;
+    margin-top: 10px;
+    border-color:gold;
+    background-color:transparent;
+}
+
+.button {
+    background-color: grey;
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 05px;
+    color: black;
+    font-weight: 900;
+    font-family: Bree-Serif;
+    margin-top: 20px;
+    height: 40px;
+    font-size: 25px;
+    padding-right: 20px;
+    padding-left: 20px;
+    
+
+}
+
+.my-tasks-heading {
+    font-size: 35px;
+    font-family: "Monoto";
+    margin-top: 60px;
+
+}
+
+.checkbox-label-container {
+    margin-top: 15px;
+    width:100%;
+
+}
+
+.checkbox-styling {
+    height: 30px;
+    width: 30px;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+.label-container {
+    background-color: transparent;
+    width: 100%;
+    border-style: solid;
+    border-color: gold;
+    border-width: 5px;
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    border-radius: 5px;
+    align-items:ceter;
+    justify-content: space-between;
+
+
+}
+
+.label-element {
+    font-family: Roboto;
+    color: black;
+    font-weight: 200;
+    font-size: 18px;
+    padding-top: 10px;
+    padding-bottom: 08px;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-radius: 5px;
+
+}
+
+.delete-icon-container {
+    text-align: right;
+    width: 18%;
+    margin-left:auto;
+
+}
+
+.delete-icon {
+
+    padding: 15px;
+}
+
+.checked {
+    text-decoration: line-through;
+
+}
