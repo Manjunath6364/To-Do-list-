@@ -1,0 +1,194 @@
+let mytaskscontainer = document.getElementById("my-tasks-container");
+
+// Object creation 
+// let todo_items = [{
+//         text: "Learn HTML",
+//         id: 1
+//     },
+//     {
+//         text: "Learn CSS",               --------------------------- Initially We Stored in a List (before storing lists in localStorage_
+//         id: 2
+//     },
+//     {
+//         text: "Learn JavaScript",
+//         id: 3
+//     }
+// ];
+
+// Stored the lists item in localStorage
+let todo_items=getToDoListFromLocalStorage();      
+
+
+// Creating a save Button
+let SaveButtonContainer = document.getElementById("saveButton");
+let saveButton=document.createElement("button");
+saveButton.textContent="Save";
+saveButton.classList.add("button");
+saveButton.style.marginBottom="10px";
+SaveButtonContainer.appendChild(saveButton);
+
+// Adding event listner to save button and store the todo_item as todoList in  localStorage
+SaveButtonContainer.onclick=function(){
+    localStorage.setItem("todoList",JSON.stringify(todo_items));
+}
+
+
+
+// Getting a todolist from a localStorage   
+function getToDoListFromLocalStorage(){
+    let todoList=localStorage.getItem("todoList")
+    let parsedList=JSON.parse(todoList);
+    if(parsedList===null){
+        return [];
+    }else{
+        return parsedList;
+    }
+}
+
+
+let ToDoCount = todo_items.length;
+
+// statuschanging function--(strike when selected and saving the checked label element in the localStorage)
+function ontodostatuschange(checkboxId, labelId,todoId) {
+    let checkboxElement = document.getElementById(checkboxId);
+    let labelElement = document.getElementById(labelId);
+    labelElement.classList.toggle("checked");
+
+    let todoItemIndex=todo_items.findIndex(function(eachTodo){
+        let eachTodo_id="todo"+eachTodo.id;
+        if(eachTodo_id===todoId){
+            return true;
+        }else{
+            return false
+        }
+    });
+    let todoObject=todo_items[todoItemIndex];
+    if(todoObject.isChecked===true){
+        todoObject.isChecked=false;
+    }else{
+        todoObject.isChecked=true;
+    }
+}
+
+// Deleting of the checkbox and label function
+function onDelete(todoId) {
+    let lists_container = document.getElementById(todoId);
+    mytaskscontainer.removeChild(lists_container);
+
+    // Deleting the list items from localstroage
+    let deletedToDoItemIndex=todo_items.findIndex(function(i){
+        // todo_list iterated and given an id for all those
+      let eachTodoId="todo"+i.id;
+    //   Checks if given Id match the existing TodoId that was previously defined
+      if(eachTodoId===todoId){
+        return true;
+      }else{
+        return false;
+      }
+    });
+    //Remove the todo Item form localStorage (todo_items were stored in localStorage)
+    todo_items.splice(deletedToDoItemIndex,1);
+}
+
+
+// append and add to the container function 
+function create_and_append_todo(items) {
+    // Only checkbox id
+    let checkboxId = "checkbox" + items.id;
+
+    // label(text) Id
+    let labelId = "label" + items.id;
+
+    // Both checkbox and label(text) Id
+    let todoId = "todo" + items.id;
+
+    // Creating of lists (Checkbox and label element)
+    let lists_container = document.createElement("li");
+    lists_container.classList.add("checkbox-label-container", "d-flex", "flex-row");
+    lists_container.id = todoId;
+    mytaskscontainer.appendChild(lists_container);
+
+    // creating the checkbox
+    let checkbox_input = document.createElement("input");
+    checkbox_input.type = "checkbox";
+    checkbox_input.id = checkboxId;
+    checkbox_input.classList.add("checkbox-styling");
+     if (items.isChecked === true) {
+        checkbox_input.checked = true;
+    }
+
+    checkbox_input.onclick = function() {
+        ontodostatuschange(checkboxId, labelId,todoId);
+    };
+    lists_container.appendChild(checkbox_input);
+
+    // Creating the label Container
+    let label_contianer = document.createElement("div");
+    label_contianer.classList.add("label-container", "d-flex", "flex-row");
+    lists_container.appendChild(label_contianer);
+
+    // Creating the label Element
+    let label_element = document.createElement("label");
+    label_element.setAttribute("for", checkboxId);
+    label_element.id = labelId;
+    label_element.classList.add("label-element");
+    label_element.textContent = items.text;
+     if (items.isChecked === true) {
+        label_element.classList.add("checked");
+    }
+
+    label_contianer.appendChild(label_element);
+
+    // Creating the delete container
+    let deleteContainer = document.createElement("div");
+    deleteContainer.classList.add("delete-icon-container");
+    label_contianer.appendChild(deleteContainer);
+
+    // Inserting the delete icon in delete Continer
+    let deleteIcon = document.createElement("i");
+    deleteIcon.classList.add("far", "fa-trash-alt", "delete-icon");
+    deleteIcon.onclick = function() {
+        onDelete(todoId)
+    }
+    deleteContainer.appendChild(deleteIcon);
+
+}
+// Loop to access the label-element that need to be inserted in MyTasks
+for (let items of todo_items) {
+    create_and_append_todo(items)
+}
+
+
+
+// -------------------------------------------------------------------------------------------
+
+// function for adding the user input text to MyTasks
+function onAddToDo() {
+    let userInput = document.getElementById("user-input");
+    let userInputValue = userInput.value;
+    if (userInputValue === "") {
+        alert("Enter the Valid Input");
+        return;
+    }
+    ToDoCount = ToDoCount + 1;
+    // Object for new Todo lists
+    let newTodo = {
+        text: userInputValue,
+        id: ToDoCount,
+        isChecked:false
+
+    }
+    // Pushed the user Entered Value to the lists
+    todo_items.push(newTodo);
+    create_and_append_todo(newTodo);
+    userInput.value = "";
+}
+
+
+// Accessing the button and adding a event listener to it
+let button = document.getElementById("button");
+button.onclick = function() {
+    onAddToDo();
+}
+
+
